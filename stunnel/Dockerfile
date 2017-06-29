@@ -7,10 +7,13 @@ RUN set -x \
  && adduser -S -G stunnel stunnel \
  && apk add --update --no-cache \
         ca-certificates \
+        gettext \
         openssl-dev \
         wget \
         build-base \
         linux-headers \
+ && cp -v /usr/bin/envsubst /usr/local/bin/ \
+ && apk del --purge gettext \        
  && mkdir -p /tmp/src \
  && cd /tmp/src \
  && wget --no-check-certificate https://www.stunnel.org/downloads/stunnel-${STUNNEL_VERSION}.tar.gz \
@@ -19,7 +22,7 @@ RUN set -x \
  && ./configure \
  && make \
  && make install \
- && apk del build-base wget linux-headers \
+ && apk del --purge build-base wget linux-headers \
  && rm -rf /tmp/src \
  && apk --no-network info openssl
 
