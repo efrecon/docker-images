@@ -37,5 +37,4 @@ RUN set -x \
 
 VOLUME ["/etc/stunnel"]
 
-ENTRYPOINT ["/srv/stunnel.sh"]
-CMD ["stunnel"]
+ENTRYPOINT ["/srv/stunnel.sh", "stunnel", "/etc/stunnel/stunnel.conf"]
