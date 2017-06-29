@@ -8,6 +8,7 @@ RUN set -x \
  && apk add --update --no-cache \
         ca-certificates \
         gettext \
+        libintl \
         openssl-dev \
         wget \
         build-base \
