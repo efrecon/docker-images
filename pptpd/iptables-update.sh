@@ -21,6 +21,7 @@ for port in "$@"; do
                     # Host has changed IP address, update the ip tables.
                     if [ "$current" != "$in_tables" ]; then
                         rulenum=$(echo "${line}" | cut -d" " -f1)
+                        logger -s -p user.info "${host} has moved from ${in_tables} to $current, updating rule #$rulenum"
                         iptables -R INPUT $rulenum -i eth0 -s $current -p tcp --dport $port -j ACCEPT -m comment --comment "${host}"
                     fi
                 fi
