@@ -9,6 +9,9 @@ for port in "$@"; do
         # Look for first IP address (the source) in the current set of tables
         # and to which host it corresponds to (from the comment).
         in_tables=$(echo "${line}" | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | head -n 1)
+        # The host is anything that more or less looks like a hostname between
+        # the comment markers. This isn't perfect but should do as we are in
+        # control of creating the comment.
         host=$(echo "${line}" | grep -o '/\* .* \*/$' | grep -o '[a-zA-Z0-9._-]*')
         if [ ! -z "${host}" ]; then
             # If we have a host and it is not an IP number, then we can start comparing

@@ -18,5 +18,6 @@ EXPOSE 1723
 
 CMD set -xe \
     && /usr/local/bin/iptables.sh /etc/firewall.conf \
+    && (/usr/local/bin/loop.sh -s 60 /usr/local/bin/iptables-update.sh 1723 &) \
     && pptpd \
     && syslogd -n -O /dev/stdout
