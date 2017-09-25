@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # TODO: Add support for dynamic hosts, meaning: from time to time, check the
 # value of the hostname put in the comment against the IP address in the source
@@ -10,11 +10,10 @@ else
     restricted=0
     for fname in "$@"; do
         if [ -r "$fname" ]; then
-            sed '/^[[:space:]]*$/d' $fname | sed '/^[[:space:]]*#/d' | while read host
+            while read host
             do
                 iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT -m comment --comment "${host}"
-                restricted=1
-            done
+            done < <(sed '/^[[:space:]]*$/d' $fname | sed '/^[[:space:]]*#/d')
         fi
     done
     
