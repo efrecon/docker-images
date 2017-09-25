@@ -5,7 +5,7 @@
 FROM alpine:3.6
 MAINTAINER Emmanuel Frecon <efrecon@gmail.com>
 
-RUN apk add --no-cache iptables ppp pptpd
+RUN apk add --no-cache iptables ppp pptpd bash
 
 COPY pptpd.conf    /etc/
 COPY chap-secrets  /etc/ppp/
