@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# TODO: Add support for dynamic hosts, meaning: from time to time, check the
+# value of the hostname put in the comment against the IP address in the source
+# and update the rule if the IP has changed.
+
 if [ "$#" -eq 0 ]; then
     iptables -A INPUT -i eth0 -p tcp --dport 1723 -j ACCEPT
 else
@@ -8,7 +12,7 @@ else
         if [ -r "$fname" ]; then
             sed '/^[[:space:]]*$/d' $fname | sed '/^[[:space:]]*#/d' | while read host
             do
-                iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT
+                iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT --comment "${host}"
                 restricted=1
             done
         fi
@@ -28,5 +32,5 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables -A FORWARD -i ppp+ -o eth0 -j ACCEPT
 iptables -A FORWARD -i eth0 -o ppp+ -j ACCEPT
 # Allow communication between the clients.
-iptables --table nat --append POSTROUTING   --out-interface ppp0 --jump MASQUERADE
+iptables --table nat --append POSTROUTING   --out-interface ppp+ --jump MASQUERADE
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
