@@ -42,4 +42,4 @@ address that hosts point at have been detected to have changed.
 
 Note that the starting command will fork `loop.sh`, which is not really good
 Docker practice but avoids bringing in `supervisord` or
-[`concocter`](https://github.com/efrecon/concocter).'
+[`concocter`](https://github.com/efrecon/concocter).
