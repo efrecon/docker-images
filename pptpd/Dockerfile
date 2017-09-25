@@ -16,6 +16,6 @@ COPY firewall.conf /etc/
 EXPOSE 1723
 
 CMD set -xe \
-    && /usr/local/bin/iptables.sh /etc/firewall.conf \
+    && iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE \
     && pptpd \
     && syslogd -n -O /dev/stdout
