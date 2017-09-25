@@ -14,6 +14,7 @@ for port in "$@"; do
             # If we have a host and it is not an IP number, then we can start comparing
             isip=$(echo "${host}" | grep -E '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$')
             if [ -z "$isip" ]; then
+                logger -s -p user.debug "Checking if ${host} is still at ${in_tables}"
                 current=$(dig +short $host | tail -n 1)
                 # We don't do anything when the host seem to have disappear,
                 # maybe should we actually remove the rule.
