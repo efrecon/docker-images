@@ -12,7 +12,7 @@ else
         if [ -r "$fname" ]; then
             sed '/^[[:space:]]*$/d' $fname | sed '/^[[:space:]]*#/d' | while read host
             do
-                iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT --comment "${host}"
+                iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT -m comment --comment "${host}"
                 restricted=1
             done
         fi
