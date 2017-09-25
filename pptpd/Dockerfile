@@ -5,13 +5,13 @@
 FROM alpine:3.6
 MAINTAINER Emmanuel Frecon <efrecon@gmail.com>
 
-RUN apk add --no-cache iptables ppp pptpd bash
+RUN apk add --no-cache iptables ppp pptpd bash bind-tools
 
 COPY pptpd.conf    /etc/
 COPY chap-secrets  /etc/ppp/
 COPY pptpd-options /etc/ppp/
-COPY iptables.sh /usr/local/bin/
-RUN chmod a+x /usr/local/bin/iptables.sh
+COPY *.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*.sh
 COPY firewall.conf /etc/
 
 EXPOSE 1723
