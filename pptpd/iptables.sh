@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# TODO: Add support for dynamic hosts, meaning: from time to time, check the
-# value of the hostname put in the comment against the IP address in the source
-# and update the rule if the IP has changed.
-
 if [ "$#" -eq 0 ]; then
     iptables -A INPUT -i eth0 -p tcp --dport 1723 -j ACCEPT
 else
