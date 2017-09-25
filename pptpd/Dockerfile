@@ -11,6 +11,7 @@ COPY pptpd.conf    /etc/
 COPY chap-secrets  /etc/ppp/
 COPY pptpd-options /etc/ppp/
 COPY iptables.sh /usr/local/bin/
+RUN chmod a+x /usr/local/bin/iptables.sh
 COPY firewall.conf /etc/
 
 EXPOSE 1723
