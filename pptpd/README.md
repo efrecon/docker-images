@@ -2,11 +2,10 @@
 
 This implements a PPTPD docker container that is able to restrict access to a
 number of remote (dynamic) hosts/networks. This image and project has its roots
-in [this](https://hub.docker.com/r/vimagick/pptpd/) other one, but it provides
-enough deviations for justifying an existence of its own. Server setup is as in
-the original image. To tweak to your own needs you will probably want to provide
-the following configuration files, files that you can mount using the `-v`
-option of `docker run`.
+in [vimagick]s image, but it provides enough deviations for justifying an
+existence of its own. Server setup is as in the original image. To tweak to your
+own needs you will probably want to provide the following configuration files,
+files that you can mount using the `-v` option of `docker run`.
 
 * `chap-secrets` should contain user names and passwords for authorisation into
   the VPN. If you want to pinpoint specific IP addresses in the last column, you
@@ -15,13 +14,12 @@ option of `docker run`.
   
 * `pptpd.conf` should contain specific options to the PPTP daemon, this is where
   you will provide IP ranges, etc. Defaults are provided, but you might want to
-  depart from these or tweak to your own needs. See
-  [this](http://manpages.ubuntu.com/manpages/trusty/man5/pptpd.conf.5.html)
-  manual for more information for example.
+  depart from these or tweak to your own needs. See [pptpd]s manual for more
+  information for example.
   
 * `pptpd-options` contain the options that are passed to the PPP connection.
-  Good defaults are provided, you can refer to
-  [this](https://ppp.samba.org/pppd.html) for more information.
+  Good defaults are provided, you can refer to [pppd]s manual for more
+  information.
   
 * `firewall.conf` contains the list of hosts that are allowed to connect to the
   VPN. When this file is empty or does not exist, all connections (that can
@@ -41,5 +39,9 @@ argument and will update the accepting rules in `iptables` as soon as the IP
 address that hosts point at have been detected to have changed.
 
 Note that the starting command will fork `loop.sh`, which is not really good
-Docker practice but avoids bringing in `supervisord` or
-[`concocter`](https://github.com/efrecon/concocter).
+Docker practice but avoids bringing in `supervisord` or [concocter].
+
+  [vimagick]:  https://hub.docker.com/r/vimagick/pptpd/
+  [pptpd]:     http://manpages.ubuntu.com/manpages/trusty/man5/pptpd.conf.5.html
+  [pppd]:      https://ppp.samba.org/pppd.html
+  [concocter]: https://github.com/efrecon/concocter
