@@ -9,6 +9,7 @@ else
             while read host
             do
                 iptables -A INPUT -i eth0 -s ${host} -p tcp --dport 1723 -j ACCEPT -m comment --comment "${host}"
+                restricted=1
             done < <(sed '/^[[:space:]]*$/d' $fname | sed '/^[[:space:]]*#/d')
         fi
     done
