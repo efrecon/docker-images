@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --build-arg SRCTAG=${CACHE_TAG} -t ${DOCKER_REPO}:${CACHE_TAG} .
+docker build --build-arg SRCTAG="${CACHE_TAG}" -t "${DOCKER_REPO}":"${CACHE_TAG}" .
