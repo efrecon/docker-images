@@ -2,31 +2,23 @@
 
 This image is to capture all possible (now, then and future) tags of the redis
 image and to arrange for creating an equivalent image with the same tag, but
-HEALTHCHECK-capabities built in.
+HEALTHCHECK-capabities built in.  To check for available tags, refer to the
+official [image](https://hub.docker.com/_/redis/).
 
-## Docker Cloud Settings
+## How?
 
-Create an automated build on the docker cloud with a tag source similar to
+This "fools" the build process by hijacking two of the available [hooks], namely
+`build` and `push`. Instead of picking the tag from data coming from settings
+entered within the hub or the Docker Cloud, both hooks will go and fetch the
+current list of listed tags from the github [project][redis]. The implementation
+is generic enough to be applied to any other official Docker image from the
+library.
 
-    /^redis-([0-9.]+(-alpine)?)$/
+  [hooks]: https://docs.docker.com/docker-cloud/builds/advanced/#custom-build-phase-hooks
+  [redis]: https://github.com/docker-library/official-images/blob/master/library/redis
 
-and a docker tag of
-
-    {\1}
-
-The docker tag will extract away the leading `redis-` and this will be passed to
-the build hook, which will further gives this to the docker build context as a
-build argument called `SRCTAG` to later automatically create an image with the
-same tag.
-
-## Creating the Tags
-
-It is just then a matter to follow the tagging of the official image by tagging your git project as:
-
-    git tag redis-4.0.6-alpine
-    git push origin --tags
-
-## Removing the Tags
-
-    git tag -d redis-4.0.6-alpine
-    git push origin :refs/tags/redis-4.0.6-alpine
+Once these hooks have been defined, it is possible to make the image dependent
+of the official redis library so that it will recreate all tags and images as
+soon as anything new has been pushed to it. This is less resource intensive as
+it sounds as Docker will typically cache most layers. Consequently, out of all
+the tags that are extracted each time, only a few layers are reconstructed.

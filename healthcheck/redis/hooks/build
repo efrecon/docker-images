@@ -14,5 +14,6 @@ alltags() {
 
 IMG=$(basename $DOCKER_REPO)
 for tag in $(alltags $IMG); do
+    echo "Building ${IMG}:$tag"
     docker build --build-arg SRCTAG=$tag -t ${DOCKER_REPO}:$tag .
 done

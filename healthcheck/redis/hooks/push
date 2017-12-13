@@ -14,5 +14,6 @@ alltags() {
 
 IMG=$(basename $DOCKER_REPO)
 for tag in $(alltags $IMG); do
+    echo "Pushing ${IMG}:$tag"
     docker push ${DOCKER_REPO}:$tag
 done
