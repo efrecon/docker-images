@@ -13,6 +13,7 @@ RUN set -x \
         wget \
         build-base \
         linux-headers \
+        openssl \
  && cp -v /usr/bin/envsubst /usr/local/bin/ \
  && apk del --purge gettext \        
  && mkdir -p /tmp/src \

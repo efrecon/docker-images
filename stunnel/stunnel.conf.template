@@ -12,7 +12,7 @@ socket = r:TCP_NODELAY=1
 CAfile = ${STUNNEL_CAFILE}
 
 debug = ${STUNNEL_DEBUG}
-output = /var/log/stunnel/stunnel.log
+output = ${STUNNEL_LOG}
 foreground = yes
 client = ${STUNNEL_CLIENT}
 
