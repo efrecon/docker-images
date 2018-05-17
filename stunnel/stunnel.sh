@@ -21,8 +21,6 @@ if [[ -z "${STUNNEL_SERVICE}" ]] || [[ -z "${STUNNEL_ACCEPT}" ]] || [[ -z "${STU
     exit 1
 fi
 
-env
-
 if [[ ! -z "${STUNNEL_PSK}" ]] && [[ -f ${STUNNEL_PSK} ]]; then
     if [[ ! -s ${STUNNEL_CONF} ]]; then
         if [[ -z "${STUNNEL_LOG}" ]]; then
