@@ -1,6 +1,6 @@
 FROM alpine:edge
 
-ENV STUNNEL_VERSION 5.41
+ENV STUNNEL_VERSION 5.44
 
 RUN set -x \
  && addgroup -S stunnel \
