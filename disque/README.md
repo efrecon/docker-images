@@ -11,7 +11,8 @@ To create a disque server, run the following command:
 
     docker run efrecon/disque:1.0-rc1
 
-Any configuration variable that appears in the default Disque [configuration] can be set in two different ways:
+Any configuration variable that appears in the default Disque [configuration]
+can be set in two different ways:
 
 1. By appending a command-line option which name is the same as the
    configuration variable, though led by a double-dash. This is as per the
