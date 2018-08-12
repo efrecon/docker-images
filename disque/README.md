@@ -1,8 +1,9 @@
 # Disque Docker Image
 
-This is a production ready Docker minimal image for running [Disque], an
-in-memory, distributed job queue from the same [author][antirez] as [redis].
-The image is based on [Alpine] and configuration can happen through setting environment variables starting with `DISQUE_`.
+This is a Docker minimal image for running [Disque], an in-memory, distributed
+job queue from the same [author][antirez] as [redis]. The image is based on
+[Alpine] and configuration can happen through setting environment variables
+starting with `DISQUE_`.
 
 ## Usage
 
