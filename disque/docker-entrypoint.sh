@@ -11,16 +11,22 @@ fi
 if [ "$1" = 'disque-server' -a "$(id -u)" = '0' ]; then
 	chown -R disque .
 
+    # Meet
+    if [ -n "$(env|grep -E '^DISQUE_MEET')" ]; then
+        echo "Arranging to join to cluster through $DISQUE_MEET"
+        su-exec disque meet.sh "$DISQUE_MEET" &
+    fi
+    
     # First arg is not a configuration file and we have environment variables
     # starting with DISQUE_. Arrange to use a configuration file and to replace
     # configuration variables in that file using the values from the environment
     # variables (sans the leading DISQUE_ and in lower case, all underscores
     # become dash).
-    DENV=$(env | grep -E '^DISQUE_' | wc -l)
+    DENV=$(env | grep -E '^DISQUE_' | grep -v 'MEET' | wc -l)
     if [ "${2%.conf}" = "$2" ] && [ "$DENV" -gt 0 ]; then
         cp /usr/local/share/disque.conf ./disque.conf
         for VAR in $(env); do
-            if [ -n "$(echo $VAR | grep -E '^DISQUE_')" ]; then
+            if [ -n "$(echo $VAR | grep -E '^DISQUE_' | grep -v 'MEET')" ]; then
                 # Transform environment variable (starting with DISQUE_) into a
                 # variable that might occur in the configuration file. This
                 # remove the leading DISQUE_, change to lowercase and replace
@@ -42,6 +48,7 @@ if [ "$1" = 'disque-server' -a "$(id -u)" = '0' ]; then
                 fi
             fi
         done
+
         chown -R disque ./disque.conf
         # Shift away disque-server to be able to prepend current configuration
         # file to list of (otherwise arguments)

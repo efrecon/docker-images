@@ -54,7 +54,7 @@ RUN mkdir /data && chown disque:disque /data
 VOLUME /data
 WORKDIR /data
 
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY *.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 7711 17711

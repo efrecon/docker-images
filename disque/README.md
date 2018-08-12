@@ -3,7 +3,8 @@
 This is a Docker minimal image for running [Disque], an in-memory, distributed
 job queue from the same [author][antirez] as [redis]. The image is based on
 [Alpine] and configuration can happen through setting environment variables
-starting with `DISQUE_`.
+starting with `DISQUE_`. The special environment variable `DISQUE_MEET` can be
+used to establish cluster formations.
 
 ## Usage
 
@@ -27,6 +28,13 @@ So, to set the port, you could run any of the two commands below:
 
     docker run efrecon/disque:1.0-rc1 --port 3456
     docker run --env DISQUE_PORT=3456 efrecon/disque:1.0-rc1
+
+## Clustering
+
+The environment variable `DISQUE_MEET` can be used to meet a number of other
+already running Disque server. The variable should contain a space separated
+list of pairs `<hostname>:<port>` where `<port>` (and the colon sign preceeding
+it) can be omitted and will default to 7711.
 
 ## Implementation
 
