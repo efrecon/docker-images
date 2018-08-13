@@ -84,7 +84,7 @@ for REMOTE in "$@"; do
         # number of attempts.
         echo "Checking availability of ${RHOST}:${RPORT}"
         nc -z $RHOST $RPORT
-        if [ ! "$?" ] || { [ $MAX -gt 0 ] && [ $COUNT -le 1 ]; }; then
+        if [ "$?" = 0 ] || { [ $MAX -gt 0 ] && [ $COUNT -le 1 ]; }; then
             break
         fi
         COUNT=$(($COUNT - 1))
@@ -92,9 +92,17 @@ for REMOTE in "$@"; do
     done
 
     set -e
-    if [ ! "$?" ]; then
-        echo "Joining Disque remote at ${RHOST}:${RPORT}"
-        disque -p $PORT -h $HOST cluster meet "$RHOST" "$RPORT"
+    if [ "$?" = 0 ]; then
+        # Resolve hostname to ip if necessary, Disque wants IP addresses, no
+        # hostnames.
+        if [ -z "$(echo ${RHOST}|grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')" ]; then
+            echo "Resolving $RHOST to its IPv4 address"
+            RIP=$(ping -w 1 -q "${RHOST}" | grep -Ei '^PING' | grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+        else
+            RIP=$RHOST
+        fi
+        echo "Joining Disque remote at ${RHOST} (${RIP}:${RPORT})"
+        disque -p $PORT -h $HOST cluster meet "$RIP" "$RPORT"
     else
         echo "!! No Disque server at ${RHOST}:${RPORT}, cannot join"
     fi
