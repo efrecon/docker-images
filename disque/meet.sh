@@ -6,9 +6,10 @@ HOST=localhost
 PORT=
 NODES=./nodes.conf
 WAIT=2
-MAX=-1
+MAX=30
+VERBOSE=1
 
-while getopts "h:p:f:w:c:" opt; do
+while getopts "h:p:f:w:c:q" opt; do
     case $opt in
         h)
             HOST="$OPTARG"
@@ -25,6 +26,9 @@ while getopts "h:p:f:w:c:" opt; do
         c)
             MAX="$OPTARG"
             ;;
+        q)
+            VERBOSE=0
+            ;;
         \?)
             set +x
             echo "Invalid option: -$OPTARG" >&2
@@ -39,28 +43,42 @@ while getopts "h:p:f:w:c:" opt; do
 done
 shift $(expr $OPTIND - 1)
 
+log() {
+    if [ "$VERBOSE" = "1" ]; then
+        MAIN=$(basename $0)
+        TSTAMP=$(date +"%Y%m%d %H%M%S")
+        echo "[$MAIN] [$TSTAMP] $1"
+    fi
+}
+
 # Wait for Disque to be properly started through discovering the existence of
 # the nodes configuration file. (see: https://stackoverflow.com/a/6270803 for
 # test)
 COUNT=$MAX
 while { [ -n "$NODES" ] && [ ! -f "$NODES" ]; } && { [ $MAX -lt 0 ] || [ $COUNT -gt 0 ]; }; do
-    echo "Waiting for Disque to start..."
+    log "Waiting for Disque to start..."
     sleep $WAIT
     COUNT=$(($COUNT - 1))
 done
+
+# Abort if we have waited too long for Disque to start.
+if [ $MAX -gt 0 ] && [ $COUNT -le 0 ]; then
+    log "!! Waited too long for local Disque server to start, aborting"
+    exit
+fi
 
 # Discover port of locally running disque-server whenever possible and
 # necessary.
 if [ "$HOST" = "localhost" ] && [ "$PORT" = "" ]; then
     PORT=$(ps -o args|grep disque-server|grep -o -E ':[0-9]+'|cut -c2-)
     if [ -n "$PORT" ]; then
-        echo "Discovered port: $PORT"
+        log "Discovered port: $PORT"
     fi
 fi
 
 # Defaulting to port 7711 for the disque-server whenever none is available.
 if [ -z "$PORT" ]; then
-    echo "Defaulting to port 7711 for local Disque server connection"
+    log "Defaulting to port 7711 for local Disque server connection"
     PORT=7711
 fi
 
@@ -82,7 +100,7 @@ for REMOTE in "$@"; do
         # Test availability of remote host and port using nc in reporting mode
         # and stop as soon as the port is available or we have reached the max
         # number of attempts.
-        echo "Checking availability of ${RHOST}:${RPORT}"
+        log "Checking availability of ${RHOST}:${RPORT}"
         nc -z $RHOST $RPORT
         if [ "$?" = 0 ] || { [ $MAX -gt 0 ] && [ $COUNT -le 1 ]; }; then
             break
@@ -96,14 +114,14 @@ for REMOTE in "$@"; do
         # Resolve hostname to ip if necessary, Disque wants IP addresses, no
         # hostnames.
         if [ -z "$(echo ${RHOST}|grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')" ]; then
-            echo "Resolving $RHOST to its IPv4 address"
+            log "Resolving $RHOST to its IPv4 address"
             RIP=$(ping -w 1 -q "${RHOST}" | grep -Ei '^PING' | grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         else
             RIP=$RHOST
         fi
-        echo "Joining Disque remote at ${RHOST} (${RIP}:${RPORT})"
+        log "Joining Disque remote at ${RHOST} (${RIP}:${RPORT})"
         disque -p $PORT -h $HOST cluster meet "$RIP" "$RPORT"
     else
-        echo "!! No Disque server at ${RHOST}:${RPORT}, cannot join"
+        log "!! No Disque server at ${RHOST}:${RPORT}, cannot join"
     fi
 done

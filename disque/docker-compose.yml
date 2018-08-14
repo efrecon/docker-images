@@ -1,0 +1,25 @@
+version: '3.3'
+
+volumes:
+  persistence:
+    driver: local
+
+services:
+  main:
+    image: efrecon/disque:1.0-rc1
+    volumes:
+      - persistence:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+  slave:
+    image: efrecon/disque:1.0-rc1
+    environment:
+      - DISQUE_MEET=main
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
