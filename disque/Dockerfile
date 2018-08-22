@@ -55,7 +55,9 @@ VOLUME /data
 WORKDIR /data
 
 COPY *.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 7711 17711
-CMD ["disque-server"]
+
+HEALTHCHECK CMD [ "healthcheck.sh" ]
+ENTRYPOINT [ "docker-entrypoint.sh" ]
+CMD [ "disque-server" ]
