@@ -1,8 +1,9 @@
 #!/bin/sh
 
-set -eo pipefail
+set -e
 
-host="$(hostname -i || echo '127.0.0.1')"
+hostnames="$(hostname -i || echo '127.0.0.1')"
+host=$(echo "${hostnames}"|cut -f1 -d" ")
 
 if ping="$(redis-cli -h "$host" ping)" && [ "$ping" = 'PONG' ]; then
 	echo "Alive"
