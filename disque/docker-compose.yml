@@ -17,6 +17,8 @@ services:
       options:
         max-size: "1m"
         max-file: "10"
+    sysctls:
+      - net.core.somaxconn=1024
   slave:
     build:
       context: .
@@ -28,3 +30,5 @@ services:
       options:
         max-size: "1m"
         max-file: "10"
+    sysctls:
+      - net.core.somaxconn=1024
