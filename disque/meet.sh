@@ -9,7 +9,7 @@ WAIT=2
 MAX=30
 VERBOSE=1
 
-while getopts "h:p:f:w:c:q" opt; do
+while getopts "h:p:f:w:c:t:q" opt; do
     case $opt in
         h)
             HOST="$OPTARG"
@@ -101,7 +101,7 @@ for REMOTE in "$@"; do
         # and stop as soon as the port is available or we have reached the max
         # number of attempts.
         log "Checking availability of ${RHOST}:${RPORT}"
-        nc -z $RHOST $RPORT
+        nc -z $RHOST $RPORT 2> /dev/null
         if [ "$?" = 0 ] || { [ $MAX -gt 0 ] && [ $COUNT -le 1 ]; }; then
             break
         fi
@@ -115,7 +115,7 @@ for REMOTE in "$@"; do
         # hostnames.
         if [ -z "$(echo ${RHOST}|grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')" ]; then
             log "Resolving $RHOST to its IPv4 address"
-            RIP=$(ping -w 1 -q "${RHOST}" | grep -Ei '^PING' | grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+            RIP=$(ping -w 1 -q "${RHOST}" 2> /dev/null | grep -Ei '^PING' | grep -Eo '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         else
             RIP=$RHOST
         fi
