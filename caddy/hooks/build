@@ -31,9 +31,9 @@ while [ $i -le $pages ] ;
 do
     i=$(expr $i + 1)
     if [ -z "$(command -v curl)" ]; then
-        page=$(curl -sL "$hub?page=$i")
-    else
         page=$(wget -q -O - "$hub?page=$i")
+    else
+        page=$(curl -sL "$hub?page=$i")
     fi
     ptags=$(echo $page | grep -Eo '"name":\s*"[a-zA-Z0-9_.-]+"' | sed -E 's/"name":\s*"([a-zA-Z0-9_.-]+)"/\1/')
     tags="${ptags} $tags"
