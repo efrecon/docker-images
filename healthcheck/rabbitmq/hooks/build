@@ -1,0 +1,25 @@
+#!/bin/bash
+
+alltags() {
+    IMG="$1"
+    local alltags=
+    local rawtags=$(curl -qsL https://github.com/docker-library/official-images/raw/master/library/${IMG} | grep "Tags:"|sed "s/Tags: //g")
+    while read line; do
+        for tag in $(echo $line | sed "s/,/ /g"); do
+            alltags="$alltags $tag"
+        done
+    done < <(echo "$rawtags")
+    echo "$alltags"|sed "s/^ //g"
+}
+
+IMG=$(basename $DOCKER_REPO)
+for tag in $(alltags $IMG); do
+    echo "======================= Building ${IMG}:$tag"
+    ALPINE=$(echo $tag | grep "alpine")
+
+    if [ -n "$ALPINE" ]; then
+        docker build --build-arg SRCTAG=$tag -t ${DOCKER_REPO}:$tag -f Dockerfile.alpine .
+    else
+        docker build --build-arg SRCTAG=$tag -t ${DOCKER_REPO}:$tag .
+    fi
+done
