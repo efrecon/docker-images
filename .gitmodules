@@ -1,0 +1,3 @@
+[submodule "caddy/hooks/docker_tags"]
+	path = caddy/hooks/docker_tags
+	url = https://gist.github.com/efrecon/f99172d827b0a9ff7b6dacb41e4723f8
