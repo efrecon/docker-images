@@ -3,7 +3,7 @@ FROM alpine:3.11
 # OCI Meta information
 LABEL org.opencontainers.image.authors="Emmanuel Frecon <efrecon@gmail.com>"
 LABEL org.opencontainers.image.created=${BUILD_DATE}
-LABEL org.opencontainers.image.version="3.11"
+LABEL org.opencontainers.image.version="1.6.8"
 LABEL org.opencontainers.image.url="https://github.com/efrecon/docker-images"
 LABEL org.opencontainers.image.source="https://github.com/efrecon/docker-images/mqtt-client/Dockerfile"
 LABEL org.opencontainers.image.documentation="https://github.com/efrecon/docker-images/mqtt-client/README.md"
