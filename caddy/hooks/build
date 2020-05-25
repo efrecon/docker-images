@@ -9,7 +9,7 @@ MINVER=${MINVER:-0.11}
 . "$(dirname "$0")/tags.sh"
 
 
-for tag in $(newtags --filter '[0-9]+(\.[0-9]+)+$' -- "$im" "$DOCKER_REPO"); do
+for tag in $(newtags --filter '[0-9]+(\.[0-9]+)+$' --verbose -- "$im" "$DOCKER_REPO"); do
     if [ "$(version "$tag")" -ge "$(version "$MINVER")" ]; then
         echo "============== Building ${DOCKER_REPO}:$tag"
         docker build --build-arg version="$tag" -t "${DOCKER_REPO}:$tag" .
