@@ -37,6 +37,10 @@ newtags() {
     rm -f "$_existing"
 }
 
+unqualified() {
+    printf %s\\n "$1" | sed -E 's/^([[:alnum:]]+\.)?docker\.(com|io)\///'
+}
+
 
 # From: https://stackoverflow.com/a/37939589
 version() {
