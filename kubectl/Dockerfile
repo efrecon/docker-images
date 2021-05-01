@@ -19,7 +19,7 @@ ENV PATH="$KREW_ROOT/bin:$PATH"
 # Metadata
 LABEL MAINTAINER efrecon+github@gmail.com
 LABEL org.opencontainers.image.title="kubectl"
-LABEL org.opencontainers.image.description="kubectl in a box"
+LABEL org.opencontainers.image.description="Krew-Capable kubectl in Docker"
 LABEL org.opencontainers.image.authors="Emmanuel Frécon <efrecon+github@gmail.com>"
 LABEL org.opencontainers.image.url="https://github.com/efrecon/docker-images/kubectl"
 LABEL org.opencontainers.image.documentation="https://github.com/efrecon/docker-images/kubectl/README.md"
