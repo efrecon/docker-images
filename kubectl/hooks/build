@@ -3,37 +3,42 @@
 GH_API=https://api.github.com/
 GH_PROJECT=kubernetes/kubernetes
 
-gh_tags() {
-  wget -q -O - "${GH_API%/}/repos/${GH_PROJECT}/releases" |
-    grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"' |
-    sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"/\1/'
-}
-
 # shellcheck disable=SC1091
 . "$(dirname "$0")/reg-tags/image_tags.sh"
+
+gh_tags() {
+  download=$(_img_downloader)
+  if [ -z "$download" ]; then
+    return 1
+  else
+    $download "${GH_API%/}/repos/${GH_PROJECT}/releases" |
+      grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"' |
+      sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"/\1/'
+  fi
+}
 
 # Login at the Docker hub to be able to access info about the image.
 token=$(img_auth "$DOCKER_REPO")
 
 echo "============== Gettings latest releases for $GH_PROJECT at github"
 for tag in $(gh_tags); do
-    # Get the revision out of the org.opencontainers.image.revision label, this
-    # will be the label where we store information about this repo (it cannot be
-    # the tag, since we tag as the base image).
-    revision=$(img_labels --verbose --token "$token" -- "$DOCKER_REPO" "$tag" |
-                grep "^org.opencontainers.image.revision" |
-                sed -E 's/^org.opencontainers.image.revision=(.+)/\1/')
-    # If the revision is different from the source commit (including empty,
-    # which will happen when our version of the image does not already exist),
-    # build the image, making sure we label with the git commit sha at the
-    # org.opencontainers.image.revision OCI label, but using the same tag as the
-    # library image.
-    if [ "$revision" != "$SOURCE_COMMIT" ]; then
-        echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
-        docker build \
-            --build-arg K8S_VERSION="$tag" \
-            --tag "${DOCKER_REPO}:$tag" \
-            --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
-            .
-    fi
+  # Get the revision out of the org.opencontainers.image.revision label, this
+  # will be the label where we store information about this repo (it cannot be
+  # the tag, since we tag as the base image).
+  revision=$(img_labels --verbose --token "$token" -- "$DOCKER_REPO" "$tag" |
+              grep "^org.opencontainers.image.revision" |
+              sed -E 's/^org.opencontainers.image.revision=(.+)/\1/')
+  # If the revision is different from the source commit (including empty,
+  # which will happen when our version of the image does not already exist),
+  # build the image, making sure we label with the git commit sha at the
+  # org.opencontainers.image.revision OCI label, but using the same tag as the
+  # library image.
+  if [ "$revision" != "$SOURCE_COMMIT" ]; then
+    echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
+    docker build \
+      --build-arg K8S_VERSION="$tag" \
+      --tag "${DOCKER_REPO}:$tag" \
+      --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
+      .
+  fi
 done

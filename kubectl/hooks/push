@@ -4,17 +4,25 @@
 GH_API=https://api.github.com/
 GH_PROJECT=kubernetes/kubernetes
 
+# shellcheck disable=SC1091
+. "$(dirname "$0")/reg-tags/image_tags.sh"
+
 gh_tags() {
-  wget -q -O - "${GH_API%/}/repos/${GH_PROJECT}/releases" |
-    grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"' |
-    sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"/\1/'
+  download=$(_img_downloader)
+  if [ -z "$download" ]; then
+    return 1
+  else
+    $download "${GH_API%/}/repos/${GH_PROJECT}/releases" |
+      grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"' |
+      sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"(v[0-9]+\.[0-9]+\.[0-9]+)"/\1/'
+  fi
 }
 
 for tag in $(gh_tags); do
   if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
-      echo "============== Pushing ${DOCKER_REPO}:$tag"
-      docker push "${DOCKER_REPO}:$tag"
+    echo "============== Pushing ${DOCKER_REPO}:$tag"
+    docker push "${DOCKER_REPO}:$tag"
   else
-      echo "!!!!!!!!!!!!!! ${DOCKER_REPO}:$tag was not built, cannot push!"
+    echo "!!!!!!!!!!!!!! ${DOCKER_REPO}:$tag was not built, cannot push!"
   fi
 done
