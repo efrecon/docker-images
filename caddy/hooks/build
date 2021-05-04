@@ -3,7 +3,7 @@
 im="abiosoft/caddy"
 MINVER=${MINVER:-0.11}
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1091
 . "$(dirname "$0")/reg-tags/image_tags.sh"
 
 
