@@ -25,20 +25,15 @@ LABEL org.opencontainers.image.url="https://github.com/efrecon/docker-images/kub
 LABEL org.opencontainers.image.documentation="https://github.com/efrecon/docker-images/kubectl/README.md"
 LABEL org.opencontainers.image.source="https://github.com/efrecon/docker-images/kubectl/Dockerfile"
 
+COPY bininstall/*.sh /usr/local/bin/
+
 # Install kubectl
-RUN apk --no-cache add curl \
-    && if [ "$K8S_VERSION" = "stable" ]; then K8S_VERSION=$(curl -s "${K8S_DWROOT%/}/stable.txt"); fi \
-    && curl -fsSLO "${K8S_DWROOT%/}/v${K8S_VERSION#v*}/bin/linux/amd64/kubectl" \
-    && chmod a+x ./kubectl \
-    && mv ./kubectl /usr/local/bin/kubectl
+RUN if [ "$K8S_VERSION" = "stable" ]; then K8S_VERSION=$(wget -q -O - "${K8S_DWROOT%/}/stable.txt"); fi \
+    && bininstall.sh -v "${K8S_DWROOT%/}/v${K8S_VERSION#v*}/bin/linux/amd64/kubectl"
 
 # Install krew and a number of plugins
 RUN apk --no-cache add git \
-    && mkdir /tmp/krew \
-    && curl -fsSL -o /tmp/krew/krew.tar.gz "${KREW_DWROOT%/}/${KREW_VERSION}/download/krew.tar.gz" \
-    && tar -C /tmp/krew -zxvf /tmp/krew/krew.tar.gz \
-    && mv /tmp/krew/krew-linux_amd64 /usr/local/bin/kubectl-krew \
-    && rm -rf /tmp/krew \
+    && tarinstall.sh -v -x krew-linux_amd64 -b kubectl-krew "${KREW_DWROOT%/}/${KREW_VERSION}/download/krew.tar.gz" \
     && mkdir -p "${KREW_ROOT}" \
     && kubectl krew install ${KREW_PLUGINS}
 

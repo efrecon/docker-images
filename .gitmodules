@@ -4,3 +4,6 @@
 [submodule "kubectl/hooks/reg-tags"]
 	path = kubectl/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags
+[submodule "kubectl/bininstall"]
+	path = kubectl/bininstall
+	url = git@github.com:efrecon/bininstall.git
