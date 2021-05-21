@@ -1,4 +1,4 @@
-FROM alpine:3.13.5
+FROM alpine:latest
 
 # stable will be automatically be replaced with the latest stable version.
 # Otherwise, this should be a version, with or without leading v.
