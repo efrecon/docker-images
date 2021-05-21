@@ -7,3 +7,9 @@
 [submodule "kubectl/bininstall"]
 	path = kubectl/bininstall
 	url = git@github.com:efrecon/bininstall.git
+[submodule "helm/bininstall"]
+	path = helm/bininstall
+	url = https://github.com/efrecon/bininstall
+[submodule "helm/hooks/reg-tags"]
+	path = helm/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags
