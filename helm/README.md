@@ -1,6 +1,6 @@
 # `helm` in Docker
 
-This Docker image provides `helm` on top of the [krew] capable [`kubectl`]
+This Docker image provides `helm` on top of the [krew] capable `kubectl`
 [image][kubectl-image] and [project][kubectl-project].
 
   [krew]: https://krew.sigs.k8s.io/
