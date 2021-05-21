@@ -13,3 +13,9 @@
 [submodule "helm/hooks/reg-tags"]
 	path = helm/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags
+[submodule "vcluster/bininstall"]
+	path = vcluster/bininstall
+	url = https://github.com/efrecon/bininstall
+[submodule "vcluster/hooks/reg-tags"]
+	path = vcluster/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags
