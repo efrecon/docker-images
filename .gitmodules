@@ -1,21 +1,3 @@
 [submodule "caddy/hooks/reg-tags"]
 	path = caddy/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
-[submodule "kubectl/hooks/reg-tags"]
-	path = kubectl/hooks/reg-tags
-	url = https://github.com/efrecon/reg-tags
-[submodule "kubectl/bininstall"]
-	path = kubectl/bininstall
-	url = git@github.com:efrecon/bininstall.git
-[submodule "helm/bininstall"]
-	path = helm/bininstall
-	url = https://github.com/efrecon/bininstall
-[submodule "helm/hooks/reg-tags"]
-	path = helm/hooks/reg-tags
-	url = https://github.com/efrecon/reg-tags
-[submodule "vcluster/bininstall"]
-	path = vcluster/bininstall
-	url = https://github.com/efrecon/bininstall
-[submodule "vcluster/hooks/reg-tags"]
-	path = vcluster/hooks/reg-tags
-	url = https://github.com/efrecon/reg-tags
