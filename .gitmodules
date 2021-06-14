@@ -1,3 +1,12 @@
 [submodule "caddy/hooks/reg-tags"]
 	path = caddy/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "bat/bininstall"]
+	path = bat/bininstall
+	url = https://github.com/efrecon/bininstall.git
+[submodule "bat/reg-tags"]
+	path = bat/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
+[submodule "bat/hooks/reg-tags"]
+	path = bat/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
