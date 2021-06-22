@@ -1,4 +1,4 @@
-FROM alpine:3.13.5
+FROM alpine:3.14
 
 ARG BAT_VERSION=latest
 ARG BAT_GHPROJ=sharkdp/bat
