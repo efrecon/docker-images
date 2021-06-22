@@ -8,5 +8,5 @@ and [hooks](./hooks/).
 
   [project]: https://github.com/efrecon/docker-images/tree/master/jq
   [images]: https://hub.docker.com/r/efrecon/jq
-  [bat]: https://github.com/stedolan/jq
+  [jq]: https://github.com/stedolan/jq
   [talonneur]: https://github.com/YanziNetworks/talonneur
