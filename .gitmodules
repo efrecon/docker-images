@@ -7,3 +7,9 @@
 [submodule "bat/hooks/reg-tags"]
 	path = bat/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "jq/bininstall"]
+	path = jq/bininstall
+	url = https://github.com/efrecon/bininstall.git
+[submodule "jq/hooks/reg-tags"]
+	path = jq/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
