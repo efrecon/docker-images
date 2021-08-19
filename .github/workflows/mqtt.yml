@@ -31,6 +31,58 @@ jobs:
         name: Build and Push Docker Hub image
         uses: docker/build-push-action@v2
         env:
+          MOSQUITTO_VERSION: 1.4.15
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.8
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=6
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 1.5.6
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.9
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=1
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 1.6.3
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.10
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=0
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 1.6.8
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.11
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=1
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
           MOSQUITTO_VERSION: 1.6.9
         with:
           context: mqtt-client
@@ -39,5 +91,31 @@ jobs:
             ALPINE_VERSION=3.12
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=1
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 1.6.12
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.13
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=3
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 2.0.11
+        with:
+          context: mqtt-client
+          push: true
+          build-args: |
+            ALPINE_VERSION=3.14
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=0
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
 
