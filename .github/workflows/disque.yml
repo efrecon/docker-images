@@ -5,12 +5,9 @@ on:
   push:
     branches:
       - 'master'
-      - 'feature/github-workflows'
     paths:
       - 'disque/**'
       - '.github/workflows/disque.yml'
-  schedule:
-      - cron: "0 0 * * *"
 
 jobs:
   disque:

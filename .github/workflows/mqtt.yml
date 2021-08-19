@@ -8,9 +8,6 @@ on:
       - 'feature/github-workflows'
     paths:
       - 'mqtt/**'
-      - '.github/workflows/mqtt.yml'
-  schedule:
-      - cron: "0 0 * * *"
 
 jobs:
   mqtt:
