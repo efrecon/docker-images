@@ -13,7 +13,7 @@ LABEL org.opencontainers.image.description="mosquitto clients for sending data a
 
 VOLUME /opt/certs
 
-RUN apk add --no-cache ca-certificates tini mosquitto-clients=1.6.12-r2 && \
+RUN apk add --no-cache ca-certificates tini mosquitto-clients=1.6.12-r3 && \
     /etc/ca-certificates/update.d/certhash && \
     ln -s /usr/bin/mosquitto_pub /usr/local/bin/pub && \
     ln -s /usr/bin/mosquitto_sub /usr/local/bin/sub
