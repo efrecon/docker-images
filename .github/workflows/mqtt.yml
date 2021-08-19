@@ -5,9 +5,9 @@ on:
   push:
     branches:
       - 'master'
-      - 'feature/github-workflows'
     paths:
-      - 'mqtt/**'
+      - 'mqtt-client/**'
+      - '.github/workflows/mqtt.yml'
 
 # mqtt-client versions are bound to the ones that are bundled with each Alpine
 # version. To find which one belongs to which version of Alpine, change the
