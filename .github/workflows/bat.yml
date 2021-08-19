@@ -8,6 +8,7 @@ on:
       - 'feature/github-workflows'
     paths:
       - 'bat/**'
+      - '.github/workflows/*.yml'
   schedule:
       - cron: "0 0 * * *"
 
