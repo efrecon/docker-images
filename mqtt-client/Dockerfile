@@ -1,9 +1,13 @@
-FROM alpine:3.13.1
+ARG ALPINE_VERSION=3.14.1
+FROM alpine:${ALPINE_VERSION}
+
+ARG MOSQUITTO_VERSION=2.0.11
+ARG PACKAGE_RELEASE=0
 
 # OCI Meta information
 LABEL org.opencontainers.image.authors="Emmanuel Frecon <efrecon@gmail.com>"
 LABEL org.opencontainers.image.created=${BUILD_DATE}
-LABEL org.opencontainers.image.version="1.6.12"
+LABEL org.opencontainers.image.version=${MOSQUITTO_VERSION}
 LABEL org.opencontainers.image.url="https://github.com/efrecon/docker-images"
 LABEL org.opencontainers.image.source="https://github.com/efrecon/docker-images/mqtt-client/Dockerfile"
 LABEL org.opencontainers.image.documentation="https://github.com/efrecon/docker-images/mqtt-client/README.md"
@@ -13,7 +17,7 @@ LABEL org.opencontainers.image.description="mosquitto clients for sending data a
 
 VOLUME /opt/certs
 
-RUN apk add --no-cache ca-certificates tini mosquitto-clients=1.6.12-r2 && \
+RUN apk add --no-cache ca-certificates tini mosquitto-clients=${MOSQUITTO_VERSION}-r${PACKAGE_RELEASE} && \
     /etc/ca-certificates/update.d/certhash && \
     ln -s /usr/bin/mosquitto_pub /usr/local/bin/pub && \
     ln -s /usr/bin/mosquitto_sub /usr/local/bin/sub
