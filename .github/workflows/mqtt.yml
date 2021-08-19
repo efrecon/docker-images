@@ -30,8 +30,14 @@ jobs:
       -
         name: Build and Push Docker Hub image
         uses: docker/build-push-action@v2
+        env:
+          MOSQUITTO_VERSION: 1.6.9
         with:
           context: mqtt-client
           push: true
-          tags: efrecon/mqtt-client
+          build-args: |
+            ALPINE_VERSION=3.12
+            MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
+            PACKAGE_RELEASE=1
+          tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
 
