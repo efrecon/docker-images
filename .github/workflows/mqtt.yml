@@ -9,6 +9,12 @@ on:
     paths:
       - 'mqtt/**'
 
+# mqtt-client versions are bound to the ones that are bundled with each Alpine
+# version. To find which one belongs to which version of Alpine, change the
+# Alpine version here:
+# https://pkgs.alpinelinux.org/packages?name=mosquitto-clients&repo=main&arch=x86_64
+# The value of PACKAGE_RELEASE should be the number after the `r  in the package
+# version number.
 jobs:
   mqtt:
     runs-on: ubuntu-latest
