@@ -1,8 +1,8 @@
-ARG ALPINE_VERSION=3.13.1
+ARG ALPINE_VERSION=3.14.1
 FROM alpine:${ALPINE_VERSION}
 
-ARG MOSQUITTO_VERSION=1.6.12
-ARG PACKAGE_RELEASE=3
+ARG MOSQUITTO_VERSION=2.0.11
+ARG PACKAGE_RELEASE=0
 
 # OCI Meta information
 LABEL org.opencontainers.image.authors="Emmanuel Frecon <efrecon@gmail.com>"
