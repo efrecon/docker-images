@@ -36,7 +36,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.8
+            ALPINE_VERSION=3.8.5
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=6
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -49,7 +49,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.9
+            ALPINE_VERSION=3.9.6
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=1
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -62,7 +62,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.10
+            ALPINE_VERSION=3.10.9
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=0
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -75,7 +75,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.11
+            ALPINE_VERSION=3.11.11
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=1
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -88,7 +88,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.12
+            ALPINE_VERSION=3.12.7
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=1
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -101,7 +101,7 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.13
+            ALPINE_VERSION=3.13.5
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=3
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
@@ -114,8 +114,15 @@ jobs:
           context: mqtt-client
           push: true
           build-args: |
-            ALPINE_VERSION=3.14
+            ALPINE_VERSION=3.14.1
             MOSQUITTO_VERSION=${{ env.MOSQUITTO_VERSION }}
             PACKAGE_RELEASE=0
           tags: efrecon/mqtt-client:${{ env.MOSQUITTO_VERSION }}
+      -
+        name: Build and Push Docker Hub image
+        uses: docker/build-push-action@v2
+        with:
+          context: mqtt-client
+          push: true
+          tags: efrecon/mqtt-client
 
