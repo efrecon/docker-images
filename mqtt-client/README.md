@@ -1,14 +1,19 @@
 # MQTT Client
 
 This minimal Alpine-based [image] contains the two [mosquitto] clients for
-sending data to topics and subscribing to topics. The image exposes a volume at
-`/opt/certs` where CA certificates and/or client certificates can be placed for
-trusted communication to a remote server. However, the image also comes with the
-list of root certificates published by Mozilla, meaning that you should be able
-to connect to remote servers that are signed by one of the main authorities.
+sending data to topics and subscribing to topics. The [image] is [tagged][tags]
+according to the mosquitto releases contained in the successive Alpine releases.
+[tags] are built using a GitHub [workflow](../.github/workflows/mqtt.yml).
 
   [mosquitto]: https://mosquitto.org/
   [image]: https://hub.docker.com/r/efrecon/mqtt-client
+  [tags]: https://hub.docker.com/r/efrecon/mqtt-client/tags
+
+The image exposes a volume at `/opt/certs` where CA certificates and/or client
+certificates can be placed for trusted communication to a remote server.
+However, the image also comes with the list of root certificates published by
+Mozilla, meaning that you should be able to connect to remote servers that are
+signed by one of the main authorities.
 
 As the binaries are confined within a docker image, they are made accessible
 through the shorthands `pub` and `sub` at the command line (in addition to

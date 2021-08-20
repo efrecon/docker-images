@@ -2,7 +2,9 @@
 
 This [project] automatically builds alpine-based Docker [images] for [act].
 Images are tagged after the name of the [act] release at github, e.g. `v0.2.24`,
-and new releases are automatically detected.
+and new releases are automatically detected. The [images] are created using a
+GitHub [workflow](../.github/workflows/act.yml) that automatically relays Docker
+Hub-compatible [hooks](./hooks/).
 
   [project]: https://github.com/efrecon/docker-images/tree/master/act
   [images]: https://hub.docker.com/r/efrecon/act
