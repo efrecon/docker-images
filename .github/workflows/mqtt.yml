@@ -138,3 +138,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: efrecon/mqtt-client
           short-description: Minimal MQTT clients based on mosquitto
+          readme-filepath: ./mqtt-client/README.md

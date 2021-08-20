@@ -68,3 +68,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: efrecon/act
           short-description: Run your GitHub Actions locally in a Docker container
+          readme-filepath: ./act/README.md

@@ -67,3 +67,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: efrecon/bat
           short-description: A cat(1) clone with wings
+          readme-filepath: ./bat/README.md

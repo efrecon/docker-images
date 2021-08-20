@@ -67,3 +67,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: efrecon/jq
           short-description: Command-line JSON processor
+          readme-filepath: ./jq/README.md
