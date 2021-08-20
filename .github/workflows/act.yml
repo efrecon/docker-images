@@ -58,3 +58,13 @@ jobs:
           DOCKER_REPO: docker.io/efrecon/act
           SOURCE_COMMIT: ${{ github.sha }}
         run: cd act && ./hooks/push
+      -
+        # Note: This uses the password, not the token as this action would
+        # otherwise not work.
+        name: Update repo description at Docker Hub
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: efrecon/act
+          short-description: Run your GitHub Actions locally in a Docker container

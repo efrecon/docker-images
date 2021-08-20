@@ -57,3 +57,13 @@ jobs:
           DOCKER_REPO: docker.io/efrecon/jq
           SOURCE_COMMIT: ${{ github.sha }}
         run: cd jq && ./hooks/push
+      -
+        # Note: This uses the password, not the token as this action would
+        # otherwise not work.
+        name: Update repo description at Docker Hub
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: efrecon/jq
+          short-description: Command-line JSON processor

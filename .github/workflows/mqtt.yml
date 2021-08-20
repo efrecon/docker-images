@@ -128,3 +128,13 @@ jobs:
           context: mqtt-client
           push: true
           tags: efrecon/mqtt-client
+      -
+        # Note: This uses the password, not the token as this action would
+        # otherwise not work.
+        name: Update repo description at Docker Hub
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: efrecon/mqtt-client
+          short-description: Minimal MQTT clients based on mosquitto
