@@ -13,3 +13,9 @@
 [submodule "jq/hooks/reg-tags"]
 	path = jq/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "act/bininstall"]
+	path = act/bininstall
+	url = https://github.com/efrecon/bininstall.git
+[submodule "act/hooks/reg-tags"]
+	path = act/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
