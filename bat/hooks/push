@@ -26,7 +26,7 @@ gh_tags() {
   fi
 }
 
-for tag in $(gh_tags); do
+for tag in $(gh_tags|sort); do
   if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MINVER")" ]; then
     if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
       echo "============== Pushing ${DOCKER_REPO}:$tag"
