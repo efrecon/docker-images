@@ -26,8 +26,8 @@ gh_versions() {
   fi
 }
 
-# Login at the Docker hub to be able to access info about the image.
-token=$(img_auth "$(img_unqualify "$DOCKER_REPO")")
+# Login at the registry to be able to access info about the image.
+token=$(img_auth "$DOCKER_REPO")
 
 echo "============== Gettings latest releases for $GH_PROJECT at github"
 for tag in $(gh_versions); do
@@ -35,7 +35,7 @@ for tag in $(gh_versions); do
     # Get the revision out of the org.opencontainers.image.revision label, this
     # will be the label where we store information about this repo (it cannot be
     # the tag, since we tag as the base image).
-    revision=$(img_labels --verbose --token "$token" -- "$(img_unqualify "$DOCKER_REPO")" "$tag" |
+    revision=$(img_labels --verbose --token "$token" -- "$DOCKER_REPO" "$tag" |
                 grep "^org.opencontainers.image.revision" |
                 sed -E 's/^org.opencontainers.image.revision=(.+)/\1/')
     # If the revision is different from the source commit (including empty,
