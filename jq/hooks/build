@@ -33,7 +33,6 @@ for tag in $(github_releases --release 'jq-[0-9]+\.[0-9]+'  "$GH_PROJECT" | sed 
     # library image.
     if [ "$revision" != "$SOURCE_COMMIT" ]; then
       echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
-      exit
       docker build \
         --build-arg JQ_VERSION="$tag" \
         --tag "${DOCKER_REPO}:$tag" \
