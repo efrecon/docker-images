@@ -9,25 +9,13 @@ SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1|
 MINVER=${MINVER:-1.3}
 
 # You shouldn't really need to have to modify the following variables.
-GH_API=https://api.github.com/
 GH_PROJECT=stedolan/jq
 
 # shellcheck disable=SC1091
 . "$(dirname "$0")/reg-tags/image_tags.sh"
 
-gh_versions() {
-  download=$(_img_downloader)
-  if [ -z "$download" ]; then
-    return 1
-  else
-    $download "${GH_API%/}/repos/${GH_PROJECT}/releases" |
-      grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"jq-([0-9]+\.[0-9]+)"' |
-      sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"jq-([0-9]+\.[0-9]+)"/\1/'
-  fi
-}
 
-
-for tag in $(gh_versions|sort); do
+for tag in $(github_releases --release 'jq-[0-9]+\.[0-9]+' "$GH_PROJECT" | sed -E 's/jq-([0-9]+\.[0-9]+)/\1/g' | sort); do
   if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MINVER")" ]; then
     if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
       echo "============== Pushing ${DOCKER_REPO}:$tag"

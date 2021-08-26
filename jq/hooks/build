@@ -9,28 +9,16 @@ SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1|
 MINVER=${MINVER:-1.3}
 
 # You shouldn't really need to have to modify the following variables.
-GH_API=https://api.github.com/
 GH_PROJECT=stedolan/jq
 
 # shellcheck disable=SC1091
 . "$(dirname "$0")/reg-tags/image_tags.sh"
 
-gh_versions() {
-  download=$(_img_downloader)
-  if [ -z "$download" ]; then
-    return 1
-  else
-    $download "${GH_API%/}/repos/${GH_PROJECT}/releases" |
-      grep -oE '[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"jq-([0-9]+\.[0-9]+)"' |
-      sed -E 's/[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"jq-([0-9]+\.[0-9]+)"/\1/'
-  fi
-}
-
 # Login at the registry to be able to access info about the image.
 token=$(img_auth "$DOCKER_REPO")
 
 echo "============== Gettings latest releases for $GH_PROJECT at github"
-for tag in $(gh_versions); do
+for tag in $(github_releases --release 'jq-[0-9]+\.[0-9]+'  "$GH_PROJECT" | sed -E 's/jq-([0-9]+\.[0-9]+)/\1/g'); do
   if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MINVER")" ]; then
     # Get the revision out of the org.opencontainers.image.revision label, this
     # will be the label where we store information about this repo (it cannot be
@@ -45,6 +33,7 @@ for tag in $(gh_versions); do
     # library image.
     if [ "$revision" != "$SOURCE_COMMIT" ]; then
       echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
+      exit
       docker build \
         --build-arg JQ_VERSION="$tag" \
         --tag "${DOCKER_REPO}:$tag" \
