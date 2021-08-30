@@ -6,7 +6,7 @@ DOCKER_REPO=${DOCKER_REPO:-"efrecon/binenv"}
 SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1| awk '{print $2}')}
 
 # Minimum version of bat to build for.
-MINVER=${MINVER:-0.3.0}
+MINVER=${MINVER:-0.7.0}
 
 # You shouldn't really need to have to modify the following variables.
 GH_PROJECT=devops-works/binenv
