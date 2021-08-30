@@ -20,10 +20,15 @@ COPY bininstall/*.sh /usr/local/bin/
 # Install bat
 RUN if [ "$BINENV_VERSION" = "latest" ]; then BINENV_VERSION=$(wget -q  -O - "$BINENV_RELROOT"|grep "href=\"/${BINENV_GHPROJ}/releases/tag/v[0-9].[0-9]*.[0-9]*\"" | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}'); fi \
     && bininstall.sh -v -b binenv -d /tmp "${BINENV_DWROOT%/}/v${BINENV_VERSION#v*}/binenv_linux_amd64" \
-    && /tmp/binenv update binenv \
-    && /tmp/binenv install binenv ${BINENV_VERSION} \
-    && rm -f /tmp/binenv \
-    && echo 'export PATH=~/.binenv:$PATH' >> ~/.profile
+    && mkdir -p ~/.binenv/binaries \
+    && chmod -R a+r ~/.binenv \
+    && mv /tmp/binenv ~/.binenv/binaries/${BINENV_VERSION#v*} \
+    && chmod a+x ~/.binenv/binaries/${BINENV_VERSION#v*} \
+    && cd ~/.binenv \
+    && ln -s binaries/${BINENV_VERSION#v*} shim \
+    && ln -s shim binenv \
+    && echo 'export PATH=~/.binenv:$PATH' >> ~/.profile \
+    && ln -s ~/.binenv/binenv /usr/local/bin/binenv
 
 ENTRYPOINT [ "binenv" ]
 CMD [ "help" ]
