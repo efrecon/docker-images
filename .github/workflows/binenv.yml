@@ -1,0 +1,42 @@
+name: binenv
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+      - 'feature/binenv'
+    paths:
+      - 'binenv/**'
+      - '.github/workflows/binenv.yml'
+  schedule:
+      - cron: "0 0 * * *"
+
+jobs:
+  binenv:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      -
+        name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/binenv
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: cd binenv && ./hooks/build
+      -
+        name: Push GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/binenv
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: cd binenv && ./hooks/push
