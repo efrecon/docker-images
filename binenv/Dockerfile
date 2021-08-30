@@ -5,9 +5,6 @@ ARG BINENV_GHPROJ=devops-works/binenv
 ARG BINENV_RELROOT=https://github.com/${BINENV_GHPROJ}/releases
 ARG BINENV_DWROOT=${BINENV_RELROOT}/download
 
-ARG BE_INSTALL
-ARG BE_VERSION
-
 # Metadata
 LABEL MAINTAINER efrecon+github@gmail.com
 LABEL org.opencontainers.image.title="binenv"
@@ -24,7 +21,7 @@ COPY bininstall/*.sh /usr/local/bin/
 RUN if [ "$BINENV_VERSION" = "latest" ]; then BINENV_VERSION=$(wget -q  -O - "$BINENV_RELROOT"|grep "href=\"/${BINENV_GHPROJ}/releases/tag/v[0-9].[0-9]*.[0-9]*\"" | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}'); fi \
     && bininstall.sh -v -b binenv -d /tmp "${BINENV_DWROOT%/}/v${BINENV_VERSION#v*}/binenv_linux_amd64" \
     && /tmp/binenv update binenv \
-    && /tmp/binenv install binenv \
+    && /tmp/binenv install binenv ${BINENV_VERSION} \
     && rm -f /tmp/binenv \
     && echo 'export PATH=~/.binenv:$PATH' >> ~/.profile
 
