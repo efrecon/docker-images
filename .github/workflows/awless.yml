@@ -12,6 +12,10 @@ on:
   schedule:
       - cron: "0 0 * * *"
 
+env:
+  SOURCE_COMMIT: ${{ github.sha }}
+  MIN_VERSION: "0.1.0"
+
 jobs:
   awless:
     runs-on: ubuntu-latest
@@ -32,13 +36,9 @@ jobs:
         name: Build GHCR images
         env:
           DOCKER_REPO: ghcr.io/efrecon/awless
-          SOURCE_COMMIT: ${{ github.sha }}
-          MIN_VERSION: "0.1.0"
         run: cd binenv/distribution && ./build
       -
         name: Push GHCR images
         env:
           DOCKER_REPO: ghcr.io/efrecon/awless
-          SOURCE_COMMIT: ${{ github.sha }}
-          MIN_VERSION: "0.1.0"
         run: cd binenv/distribution && ./push
