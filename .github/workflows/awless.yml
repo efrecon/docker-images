@@ -8,7 +8,7 @@ on:
       - 'feature/binenv'
     paths:
       - 'binenv/**'
-      - '.github/workflows/binenv/awless.yml'
+      - '.github/workflows/awless.yml'
   schedule:
       - cron: "0 0 * * *"
 
