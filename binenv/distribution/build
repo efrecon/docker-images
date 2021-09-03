@@ -5,6 +5,8 @@
 DOCKER_REPO=${DOCKER_REPO:-"efrecon/binenv"}
 SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1| awk '{print $2}')}
 
+MIN_VERSION=${MIN_VERSION:-0.0.1}
+
 BINENV_VERSION=0.12.0
 IMG=ghcr.io/efrecon/binenv:v${BINENV_VERSION}
 
@@ -18,25 +20,27 @@ token=$(img_auth "$DOCKER_REPO")
 
 echo "============== Getting binenv distribution $DISTRO releases"
 for tag in $(docker run --rm -v "$(pwd)":/binenv:ro --entrypoint /binenv/binenv.sh "$IMG" versions "$DISTRO"); do
-  # Get the revision out of the org.opencontainers.image.revision label, this
-  # will be the label where we store information about this repo (it cannot be
-  # the tag, since we tag as the base image).
-  revision=$(img_labels --verbose --token "$token" -- "$DOCKER_REPO" "$tag" |
-              grep "^org.opencontainers.image.revision" |
-              sed -E 's/^org.opencontainers.image.revision=(.+)/\1/')
-  # If the revision is different from the source commit (including empty,
-  # which will happen when our version of the image does not already exist),
-  # build the image, making sure we label with the git commit sha at the
-  # org.opencontainers.image.revision OCI label, but using the same tag as the
-  # library image.
-  if [ "$revision" != "$SOURCE_COMMIT" ]; then
-    echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
-    docker build \
-      --build-arg DISTRO_VERSION="$tag" \
-      --build-arg DISTRO_NAME="$DISTRO" \
-      --build-arg BINENV_VERSION="$BINENV_VERSION" \
-      --tag "${DOCKER_REPO}:$tag" \
-      --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
-      .
+  if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MIN_VERSION")" ]; then
+    # Get the revision out of the org.opencontainers.image.revision label, this
+    # will be the label where we store information about this repo (it cannot be
+    # the tag, since we tag as the base image).
+    revision=$(img_labels --verbose --token "$token" -- "$DOCKER_REPO" "$tag" |
+                grep "^org.opencontainers.image.revision" |
+                sed -E 's/^org.opencontainers.image.revision=(.+)/\1/')
+    # If the revision is different from the source commit (including empty,
+    # which will happen when our version of the image does not already exist),
+    # build the image, making sure we label with the git commit sha at the
+    # org.opencontainers.image.revision OCI label, but using the same tag as the
+    # library image.
+    if [ "$revision" != "$SOURCE_COMMIT" ]; then
+      echo "============== No ${DOCKER_REPO}:$tag at $SOURCE_COMMIT"
+      docker build \
+        --build-arg DISTRO_VERSION="$tag" \
+        --build-arg DISTRO_NAME="$DISTRO" \
+        --build-arg BINENV_VERSION="$BINENV_VERSION" \
+        --tag "${DOCKER_REPO}:$tag" \
+        --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
+        .
+    fi
   fi
 done

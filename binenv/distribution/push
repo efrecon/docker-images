@@ -4,6 +4,8 @@
 DOCKER_REPO=${DOCKER_REPO:-"efrecon/binenv"}
 SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1| awk '{print $2}')}
 
+MIN_VERSION=${MIN_VERSION:-0.0.1}
+
 BINENV_VERSION=0.12.0
 IMG=ghcr.io/efrecon/binenv:v${BINENV_VERSION}
 
@@ -14,10 +16,12 @@ DISTRO=$(printf %s\\n "$DOCKER_REPO" | sed 's~/~\n~g' | tail -n 1)
 
 echo "============== Getting binenv distribution $DISTRO releases"
 for tag in $(docker run --rm -v "$(pwd)":/binenv:ro --entrypoint /binenv/binenv.sh "$IMG" versions "$DISTRO"); do
-  if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
-    echo "============== Pushing ${DOCKER_REPO}:$tag"
-    docker push "${DOCKER_REPO}:$tag"
-  else
-    echo "!!!!!!!!!!!!!! ${DOCKER_REPO}:$tag was not built, cannot push!"
+  if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MIN_VERSION")" ]; then
+    if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
+      echo "============== Pushing ${DOCKER_REPO}:$tag"
+      docker push "${DOCKER_REPO}:$tag"
+    else
+      echo "!!!!!!!!!!!!!! ${DOCKER_REPO}:$tag was not built, cannot push!"
+    fi
   fi
 done

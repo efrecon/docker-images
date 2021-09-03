@@ -33,10 +33,12 @@ jobs:
         env:
           DOCKER_REPO: ghcr.io/efrecon/awless
           SOURCE_COMMIT: ${{ github.sha }}
+          MIN_VERSION: "0.1.0"
         run: cd binenv/distribution && ./build
       -
         name: Push GHCR images
         env:
           DOCKER_REPO: ghcr.io/efrecon/awless
           SOURCE_COMMIT: ${{ github.sha }}
+          MIN_VERSION: "0.1.0"
         run: cd binenv/distribution && ./push
