@@ -15,7 +15,7 @@ IMG=ghcr.io/efrecon/binenv:v${BINENV_VERSION}
 DISTRO=$(printf %s\\n "$DOCKER_REPO" | sed 's~/~\n~g' | tail -n 1)
 
 echo "============== Getting binenv distribution $DISTRO releases"
-for tag in $(docker run --rm -v "$(pwd)":/binenv:ro --entrypoint /binenv/binenv.sh "$IMG" versions "$DISTRO"); do
+for tag in $(docker run --rm -v "$(pwd)":/binenv:ro --entrypoint /binenv/binenv.sh "$IMG" versions "$DISTRO" | sort); do
   if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MIN_VERSION")" ]; then
     if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
       echo "============== Pushing ${DOCKER_REPO}:$tag"
