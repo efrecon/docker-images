@@ -19,3 +19,9 @@
 [submodule "act/hooks/reg-tags"]
 	path = act/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "binenv/bininstall"]
+	path = binenv/bininstall
+	url = https://github.com/efrecon/bininstall.git
+[submodule "binenv/hooks/reg-tags"]
+	path = binenv/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git

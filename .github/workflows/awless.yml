@@ -1,0 +1,44 @@
+name: awless
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+      - 'feature/binenv'
+    paths:
+      - 'binenv/**'
+      - '.github/workflows/awless.yml'
+  schedule:
+      - cron: "0 0 * * *"
+
+env:
+  SOURCE_COMMIT: ${{ github.sha }}
+  MIN_VERSION: "0.1.0"
+
+jobs:
+  awless:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      -
+        name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/awless
+        run: cd binenv/distribution && ./build
+      -
+        name: Push GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/awless
+        run: cd binenv/distribution && ./push
