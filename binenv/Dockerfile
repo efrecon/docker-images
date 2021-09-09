@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.source="https://github.com/efrecon/docker-images/
 RUN apk add --no-cache less curl git
 COPY bininstall/*.sh /usr/local/bin/
 
-# Install bat
+# Install binenv
 RUN if [ "$BINENV_VERSION" = "latest" ]; then BINENV_VERSION=$(wget -q  -O - "$BINENV_RELROOT"|grep "href=\"/${BINENV_GHPROJ}/releases/tag/v[0-9].[0-9]*.[0-9]*\"" | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}'); fi \
     && bininstall.sh -v -b binenv "${BINENV_DWROOT%/}/v${BINENV_VERSION#v*}/binenv_linux_amd64" \
     && chmod a+x /usr/local/bin/binenv \

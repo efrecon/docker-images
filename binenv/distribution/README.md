@@ -1,7 +1,7 @@
 # binenv-based Docker Images
 
 This directory contains a multi-stage Dockerfile and a number of scripts to
-allow the creation of a Docker Images for all the tools that are supported by
+allow the creation of Docker Images for all the tools that are supported by
 [binenv].
 
 The [build](./build) and [push](./push) will inject the wrapper
