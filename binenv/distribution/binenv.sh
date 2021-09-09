@@ -4,17 +4,36 @@ ROOT_DIR=${ROOT_DIR:-"$( cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd
 
 set -eu
 
-BINENV_DISTRIBUTION_LIST=${BINENV_DISTRIBUTION_LIST:-https://raw.githubusercontent.com/devops-works/binenv/master/distributions/distributions.yaml}
+# This script is a binenv wrapper that can be used to:
+# 1. install a binenv distribution
+# 2. Get the list of the known binenv distributions
+# 3. Get the known versions of a binenv distribution
+# The script will automatically update the distribution list cache as soon as it
+# is too old (15mins by default).
 
+# XDG configuration directory (we need this because the directory is used by
+# binenv itself.)
 XDG_CONFIG=${XDG_CONFIG:-${HOME}/.config}
+
+# Root directory where binenv installs its binaries. This should be the same
+# directory as the one given to binenv install --bindir.
 BINENV_BINDIR=${BINENV_BINDIR:-${HOME}/.binenv}
+
+# Directory where binenv caches data (distribution list, etc.)
 BINENV_CFGDIR=${BINENV_CFGDIR:-${XDG_CONFIG%/}/binenv}
+
+# Location of the cached distribution list kept by binenv.
 BINENV_LIST=${BINENV_LIST:-${BINENV_CFGDIR%/}/distributions.yaml}
 
+# When the distribution list is older than this age, the script will
+# automatically request binenv for a cache update.
 BINENV_AGE=${BINENV_AGE:-300}
 
+# Location of the binenv binary itself, the default is binenv as found in the
+# $PATH.
 BINENV_BIN=${BINENV_BIN:-binenv}
 
+# Set this to 1 for more verbosity.
 BINENV_VERBOSE=${BINENV_VERBOSE:-0}
 
 BINENV_THIS=$0
@@ -83,6 +102,8 @@ _versions() {
     grep -E '^[0-9]+\.[0-9]+\.[0-9]+$'
 }
 
+# Provided a proper binenv binary, create a binenv mini-environment under its
+# regular directory for binary installation when that directory does not exist.
 if ! [ -d "$BINENV_BINDIR" ]; then
   if command -v "$BINENV_BIN" >/dev/null 2>&1; then
     _verbose "Creating missing binenv environment under $BINENV_BINDIR"
@@ -91,6 +112,7 @@ if ! [ -d "$BINENV_BINDIR" ]; then
   fi
 fi
 
+# Update distribution cache when current file is too old or does not exit.
 if [ -f "$BINENV_LIST" ]; then
   changed=$(stat -c %Y "$BINENV_LIST")
   now=$(date +%s)
