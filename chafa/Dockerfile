@@ -1,6 +1,7 @@
+ARG UBUNTU_VERSION=20.04
 ARG CHAFA_VERSION=1.8.0
 
-FROM ubuntu:20.04 AS build
+FROM ubuntu:${UBUNTU_VERSION} AS build
 
 ARG GHPROJ=hpjansson/chafa
 ARG CHAFA_VERSION
@@ -13,7 +14,7 @@ RUN apt-get -y update \
   && mkdir /tmp/usr && mkdir build && cd build && ../autogen.sh --prefix=/usr/local --disable-dependency-tracking && make -j4 && make install
 #  && rm -rf /tmp/chafa-${CHAFA_VERSION}*
 
-FROM ubuntu:20.04
+FROM ubuntu:${UBUNTU_VERSION}
 
 ARG CHAFA_VERSION
 
