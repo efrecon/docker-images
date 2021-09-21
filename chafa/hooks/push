@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+# Set good defaults to allow script to be run by hand. The two variables below
+# will never be used when run from within the Docker hub.
+DOCKER_REPO=${DOCKER_REPO:-"efrecon/chafa"}
+SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1| awk '{print $2}')}
+
+# Minimum version of bat to build for.
+MINVER=${MINVER:-1.0.0}
+
+# You shouldn't really need to have to modify the following variables.
+GH_PROJECT=hpjansson/chafa
+
+# shellcheck disable=SC1091
+. "$(dirname "$0")/reg-tags/image_tags.sh"
+
+for tag in $(github_releases "$GH_PROJECT"|sort); do
+  if [ "$(img_version "${tag#v}")" -ge "$(img_version "$MINVER")" ]; then
+    if docker image inspect "${DOCKER_REPO}:$tag" >/dev/null 2>&1; then
+      echo "============== Pushing ${DOCKER_REPO}:$tag"
+      docker push "${DOCKER_REPO}:$tag"
+    else
+      echo "!!!!!!!!!!!!!! ${DOCKER_REPO}:$tag was not built, cannot push!"
+    fi
+  fi
+done
