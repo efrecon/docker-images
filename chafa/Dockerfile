@@ -30,6 +30,7 @@ RUN apt-get -y update \
 COPY --from=build /usr/local /usr/local
 ENV LD_LIBRARY_PATH=/usr/local/lib
 RUN ldconfig
+RUN chafa --version
 
 ENTRYPOINT [ "chafa" ]
 CMD [ "--help" ]
