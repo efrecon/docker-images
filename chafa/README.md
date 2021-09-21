@@ -14,9 +14,8 @@ Docker Hub-compatible [hooks](./hooks/).
 
 To use these Docker images, you will have to bind-mount your current directory
 and probably respect user and group permissions. For example, the following
-command would perform let you display any image present in your current
-directory or below, if you replaced the `--help` with the relative path to an
-image.
+command would let you display any image present in your current directory or
+below, if you replaced the `--help` with the relative path to an image.
 
 ```console
 docker run \

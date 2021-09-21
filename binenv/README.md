@@ -8,4 +8,4 @@ relays Docker Hub-compatible [hooks](./hooks/).
 
   [project]: https://github.com/efrecon/docker-images/tree/master/binenv
   [images]: https://hub.docker.com/r/efrecon/binenv
-  [binenv]: https://github.com/nektos/binenv
+  [binenv]: https://github.com/devops-works/binenv
