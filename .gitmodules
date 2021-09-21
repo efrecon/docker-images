@@ -25,3 +25,6 @@
 [submodule "binenv/hooks/reg-tags"]
 	path = binenv/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "chafa/hooks/reg-tags"]
+	path = chafa/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
