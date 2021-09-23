@@ -27,5 +27,7 @@ COPY --from=binenv /root/.binenv/binaries/${DISTRO_NAME}/${DISTRO_VERSION} /usr/
 
 # Make the distribution the entrypoint using a decided-upon name as it is not
 # possible to use a Docker build argument inside the ENTRYPOINT vector.
-RUN cd /usr/local/bin && ln -s "${DISTRO_NAME}" shim
+RUN cd /usr/local/bin \
+  && ln -s "${DISTRO_NAME}" shim \
+  && chmod a+x "${DISTRO_NAME}"
 ENTRYPOINT [ "/usr/local/bin/shim" ]
