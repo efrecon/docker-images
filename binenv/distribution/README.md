@@ -9,6 +9,8 @@ The [build](./build) and [push](./push) will inject the wrapper
 [project](../) to detect all the known versions for a `binenv` supported tool,
 a.k.a. distribution. For all versions, the scripts will use the multi-stage
 [Dockerfile](./Dockerfile) to create a Docker image with the binary of the
-distribution placed on top of the busybox image.
+distribution placed on top of the busybox image. In many cases, and depending on
+the binary that was packaged, you will have to provide additional arguments to
+`docker run` to be able to run the binary through Docker.
 
   [binenv]: https://github.com/devops-works/binenv
