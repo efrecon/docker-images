@@ -1,0 +1,47 @@
+# This file has been automatically generated from the binenv.{sh,tpl} pair of
+# files in the same directory on 20210923-230341
+# Based on version at: 8ea32ca786183e085a8852526d72b480cc7989da
+name: yh
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+      - 'feature/binenv'
+    paths:
+      - 'binenv/**'
+      - '.github/workflows/yh.yml'
+  schedule:
+      - cron: "0 0 * * *"
+
+env:
+  SOURCE_COMMIT: ${{ github.sha }}
+  MIN_VERSION: "0.0.1"
+
+jobs:
+  yh:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      -
+        name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/yh
+        run: cd binenv/distribution && ./build
+      -
+        name: Push GHCR images
+        env:
+          DOCKER_REPO: ghcr.io/efrecon/yh
+        run: cd binenv/distribution && ./push
