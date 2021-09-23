@@ -1,3 +1,6 @@
+# This file has been automatically generated from the binenv.{sh,tpl} pair of
+# files in the same directory on %DATE%
+# Based on version at: %COMMIT%
 name: %DISTRIBUTION%
 
 on:
