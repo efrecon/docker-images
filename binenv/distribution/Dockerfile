@@ -1,5 +1,5 @@
 # Version of the binenv image to use
-ARG BINENV_VERSION=0.12.0
+ARG BINENV_VERSION=0.13.0
 
 # Name and version of the tool, a.k.a distribution, that we will be installing
 # in the final image.
@@ -13,7 +13,7 @@ ARG DISTRO_VERSION
 
 # Copy our binenv wrapper script and install the tool at the version requested.
 COPY *.sh /usr/local/bin/
-RUN /usr/local/bin/binenv.sh install "${DISTRO_NAME}" "${DISTRO_VERSION}"
+RUN /usr/local/bin/binenv.sh -v install "${DISTRO_NAME}" "${DISTRO_VERSION}"
 
 # Start again from almost scratch. We need busybox in order to be able to create
 # a symbolic link as part of the image's instructions.
