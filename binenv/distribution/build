@@ -7,7 +7,7 @@ SOURCE_COMMIT=${SOURCE_COMMIT:-$(git log --no-decorate|grep '^commit'|head -n 1|
 
 MIN_VERSION=${MIN_VERSION:-0.0.1}
 
-BINENV_VERSION=0.13.0
+BINENV_VERSION=${BINENV_VERSION:-0.13.0}
 IMG=ghcr.io/efrecon/binenv:v${BINENV_VERSION}
 
 # shellcheck disable=SC1091
