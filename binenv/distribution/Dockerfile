@@ -15,12 +15,15 @@ ARG DISTRO_VERSION
 COPY *.sh /usr/local/bin/
 RUN /usr/local/bin/binenv.sh -v install "${DISTRO_NAME}" "${DISTRO_VERSION}"
 
-# Start again from almost scratch. We need busybox in order to be able to create
-# a symbolic link as part of the image's instructions.
-FROM busybox
+# Start again from alpine. We need to be able to create a link (with ln), but
+# will also install a GNU C compatibility layer.
+FROM alpine:3.14
 
 ARG DISTRO_NAME
 ARG DISTRO_VERSION
+
+# Add GNU C compatibility layer
+RUN apk add --no-cache gcompat
 
 # Copy the binary installed in the prior stage to /usr/local/bin
 COPY --from=binenv /root/.binenv/binaries/${DISTRO_NAME}/${DISTRO_VERSION} /usr/local/bin/${DISTRO_NAME}
@@ -30,4 +33,5 @@ COPY --from=binenv /root/.binenv/binaries/${DISTRO_NAME}/${DISTRO_VERSION} /usr/
 RUN cd /usr/local/bin \
   && ln -s "${DISTRO_NAME}" shim \
   && chmod a+x "${DISTRO_NAME}"
+
 ENTRYPOINT [ "/usr/local/bin/shim" ]
