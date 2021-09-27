@@ -37,6 +37,7 @@ BINENV_BIN=${BINENV_BIN:-binenv}
 # Project and location at GitHub. You shouldn't have to change that really...
 BINENV_GHPROJ=${BINENV_GHPROJ:-devops-works/binenv}
 BINENV_ROOTURL=${BINENV_ROOTURL:-https://github.com/${BINENV_GHPROJ}}
+BINENV_VERSION=${BINENV_VERSION:-latest}
 
 # Set this to 1 for more verbosity.
 BINENV_VERBOSE=${BINENV_VERBOSE:-0}
@@ -132,12 +133,14 @@ if ! command -v "$BINENV_BIN" >/dev/null 2>&1; then
     # we have found an executable with the right name.
     export PATH=${BINENV_BINDIR}:$PATH
   else
-    # Discover the latest version from the HTML page (maybe should we use the
-    # API, but this avoids rate-limiting).
-    version=$(_download "${BINENV_ROOTURL}/releases"|grep "href=\"/${BINENV_GHPROJ}/releases/tag/v[0-9].[0-9]*.[0-9]*\"" | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}')
-    _verbose "Installing binenv v. ${version#v*} into $BINENV_BINDIR"
+    if [ -z "$BINENV_VERSION" ] || [ "$BINENV_VERSION" = "latest" ]; then
+      # Discover the latest version from the HTML page (maybe should we use the
+      # API, but this avoids rate-limiting).
+      BINENV_VERSION=$(_download "${BINENV_ROOTURL}/releases"|grep "href=\"/${BINENV_GHPROJ}/releases/tag/v[0-9].[0-9]*.[0-9]*\"" | grep -v no-underline | head -n 1 | cut -d '"' -f 2 | awk '{n=split($NF,a,"/");print a[n]}' | awk 'a !~ $0{print}; {a=$0}')
+    fi
+    _verbose "Installing binenv v. ${BINENV_VERSION#v*} into $BINENV_BINDIR"
     # Download and install binenv, and arrange for the shim to be created.
-    _download "${BINENV_ROOTURL}/releases/download/v${version#v*}/binenv_linux_amd64" > "${BINENV_BINDIR}/${BINENV_BIN}"
+    _download "${BINENV_ROOTURL}/releases/download/v${BINENV_VERSION#v*}/binenv_linux_amd64" > "${BINENV_BINDIR}/${BINENV_BIN}"
     chmod a+x "${BINENV_BINDIR}/${BINENV_BIN}"
     export PATH=${BINENV_BINDIR}:$PATH
   fi
