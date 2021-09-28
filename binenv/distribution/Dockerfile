@@ -16,14 +16,11 @@ COPY *.sh /usr/local/bin/
 RUN /usr/local/bin/binenv.sh -v install "${DISTRO_NAME}" "${DISTRO_VERSION}"
 
 # Start again from alpine. We need to be able to create a link (with ln), but
-# will also install a GNU C compatibility layer.
-FROM alpine:3.14
+# most importantly, we need a GNU C compatibility layer.
+FROM yanzinetworks/alpine:3.14
 
 ARG DISTRO_NAME
 ARG DISTRO_VERSION
-
-# Add GNU C compatibility layer
-RUN apk add --no-cache gcompat
 
 # Copy the binary installed in the prior stage to /usr/local/bin
 COPY --from=binenv /root/.binenv/binaries/${DISTRO_NAME}/${DISTRO_VERSION} /usr/local/bin/${DISTRO_NAME}
