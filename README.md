@@ -16,9 +16,9 @@ makes it possible to run these almost as if you had had the binaries installed
 on your system directly, but with the encapsulation advantages of Docker.
 Cleaning up your system is then as straightforward as [pruning][prune] unused
 Docker objects. Provided you have installed [`dew`][dew] and made it accessible
-through your `PATH`, you would run `jq` as with `dew jq` instead. [`dew`][dew]
-would then arrange for the files in your starting directory and those below to
-be automatically accessible to the temporary container created.
+through your `PATH`, you would run `jq` as `dew jq` instead. [`dew`][dew] would
+then arrange for the files in your starting directory and those below to be
+automatically accessible to the temporary container created.
 
 Note that this project used to contain a number of images targetting the
 [Kubernetes] ecosystem. These have been moved to a separate [project][k8s]
