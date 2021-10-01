@@ -55,7 +55,7 @@ interest:
 
 All automatically built images use the [binenv](./binenv/README.md) image to
 download binaries and create a new [image](./binenv/distribution/README.md) with
-as little cruft as possible, i.e. just the binary itself insert on top of an
+as little cruft as possible, i.e. just the binary itself inserted on top of an
 Alpine image able to run glibc compiled binaries if necessary.
 
 + [awless] - A Mighty CLI for AWS
