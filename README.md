@@ -8,7 +8,8 @@ Docker images. You will find a set of curated and customised
 all these images (curated or automated) try to follow the releasing tempo of
 their original projects. In other words, there will be images tagged with the
 same release as the original project's release number published soon after the
-releases have been made.
+releases have been made. Images are made [available][ghcr] both at the GitHub
+Container Registry and in some cases at the Docker Hub.
 
 A large set of both types of images is interfaced from the [dew] project. [dew]
 makes it possible to run these almost as if you had had the binaries installed
@@ -24,6 +25,7 @@ Note that this project used to contain a number of images targetting the
 instead. The kubernetes-oriented project started as a perfect copy of this
 project in order to preserve revision history.
 
+  [ghcr]: https://github.com/efrecon?tab=packages&repo_name=docker-images
   [Kubernetes]: https://kubernetes.io/
   [k8s]: https://github.com/efrecon/k8s-images
   [binenv]: https://github.com/devops-works/binenv
