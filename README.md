@@ -1,34 +1,32 @@
 # docker-images
 
-Various and useful self-contained Docker images. This project used to contain a
-number of images targetting kubernetes. These have been moved to a separate
-[project] instead. The kubernetes-oriented project started as a perfect copy of
-this project in order to preserve revision history.
-
-  [project]: https://github.com/efrecon/k8s-images
-
-In this project, you will find a set of curated and customised
+This project contains Dockerfiles for building various and useful self-contained
+Docker images. You will find a set of curated and customised
 [images](#curated-images), as well as a set of automatically installed
 [images](#automatically-built-images), based on the [binenv] project and the
 [image](./binenv/README.md) part of the first set of images. The largest part of
-all these images try to follow the releasing tempo of their original projects:
-in other words, there will be images tagged with the same release as the
-original project's release number publish soon after the releases have been
-made.
+all these images (curated or automated) try to follow the releasing tempo of
+their original projects. In other words, there will be images tagged with the
+same release as the original project's release number published soon after the
+releases have been made.
 
 A large set of both types of images is interfaced from the [dew] project. [dew]
 makes it possible to run these almost as if you had had the binaries installed
 on your system directly, but with the encapsulation advantages of Docker.
 Cleaning up your system is then as straightforward as [pruning][prune] unused
 Docker objects. Provided you have installed [`dew`][dew] and made it accessible
-at through your `PATH`, you would run `jq` as follows instead. [`dew`][dew]
-would arrange for the files in your starting directory and those below to be
-automatically accessible to the temporary container created.
+through your `PATH`, you would run `jq` as with `dew jq` instead. [`dew`][dew]
+would then arrange for the files in your starting directory and those below to
+be automatically accessible to the temporary container created.
 
-```shell
-dew jq
-```
+Note that this project used to contain a number of images targetting the
+[Kubernetes] ecosystem. These have been moved to a separate [project][k8s]
+instead. The kubernetes-oriented project started as a perfect copy of this
+project in order to preserve revision history.
 
+  [Kubernetes]: https://kubernetes.io/
+  [k8s]: https://github.com/efrecon/k8s-images
+  [binenv]: https://github.com/devops-works/binenv
   [dew]: https://github.com/efrecon/dew
   [prune]: https://docs.docker.com/config/pruning/
 
