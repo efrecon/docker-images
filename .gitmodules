@@ -28,3 +28,6 @@
 [submodule "chafa/hooks/reg-tags"]
 	path = chafa/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "ts-node/hooks/reg-tags"]
+	path = ts-node/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
