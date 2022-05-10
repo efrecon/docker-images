@@ -8,7 +8,7 @@ Hub-compatible [hooks](./hooks/).
 
   [project]: https://github.com/efrecon/docker-images/tree/master/ts-node
   [images]: https://hub.docker.com/r/efrecon/ts-node
-  [ts-node]: https://github.com/hpjansson/ts-node
+  [ts-node]: https://github.com/TypeStrong/ts-node
 
 ## Usage
 
