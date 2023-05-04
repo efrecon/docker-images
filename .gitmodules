@@ -31,3 +31,9 @@
 [submodule "ts-node/hooks/reg-tags"]
 	path = ts-node/hooks/reg-tags
 	url = https://github.com/efrecon/reg-tags.git
+[submodule "miniserve/bininstall"]
+	path = miniserve/bininstall
+	url = https://github.com/efrecon/bininstall.git
+[submodule "miniserve/hooks/reg-tags"]
+	path = miniserve/hooks/reg-tags
+	url = https://github.com/efrecon/reg-tags.git
