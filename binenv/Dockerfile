@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.18
 
 ARG BINENV_VERSION=latest
 ARG BINENV_GHPROJ=devops-works/binenv
