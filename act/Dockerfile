@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.18
 
 ARG ACT_VERSION=latest
 ARG ACT_GHPROJ=nektos/act
