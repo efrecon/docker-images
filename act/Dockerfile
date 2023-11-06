@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.url="https://github.com/efrecon/docker-images/act
 LABEL org.opencontainers.image.documentation="https://github.com/efrecon/docker-images/act/README.md"
 LABEL org.opencontainers.image.source="https://github.com/efrecon/docker-images/act/Dockerfile"
 
-RUN apk add --no-cache less curl git
+RUN apk add --no-cache less curl git ca-certificates
 COPY bininstall/*.sh /usr/local/bin/
 
 # Install act
