@@ -55,6 +55,7 @@ jobs:
         name: Build GHCR images
         env:
           DOCKER_REPO: ghcr.io/efrecon/kops
+          MIN_VERSION: "1.10"
         run: cd binenv/distribution && ./build
       -
         name: Push GHCR images
