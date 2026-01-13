@@ -17,7 +17,7 @@ RUN /usr/local/bin/binenv.sh -v install "${DISTRO_NAME}" "${DISTRO_VERSION}"
 
 # Start again from alpine. We need to be able to create a link (with ln), but
 # most importantly, we need a GNU C compatibility layer.
-FROM yanzinetworks/alpine:3.14
+FROM yanzinetworks/alpine:3.18.9
 
 ARG DISTRO_NAME
 ARG DISTRO_VERSION
