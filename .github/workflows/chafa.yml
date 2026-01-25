@@ -18,7 +18,7 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: true
       -
@@ -62,7 +62,7 @@ jobs:
         # Note: This uses the password, not the token as this action would
         # otherwise not work.
         name: Update repo description at Docker Hub
-        uses: peter-evans/dockerhub-description@v2
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
